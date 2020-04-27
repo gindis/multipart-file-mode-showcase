@@ -28,6 +28,15 @@ module.exports = appInfo => {
     mode: 'file',
   };
 
+  config.security = {
+    csrf: {
+      enable: true,
+      ignore: [
+        '/ajax',
+      ],
+    },
+  };
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

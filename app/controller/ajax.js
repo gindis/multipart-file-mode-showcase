@@ -5,6 +5,7 @@ const path = require('path');
 const Controller = require('egg').Controller;
 const pump = require('mz-modules/pump');
 
+
 module.exports = class extends Controller {
   async show() {
     await this.ctx.render('page/ajax.nj');
@@ -16,7 +17,12 @@ module.exports = class extends Controller {
     const file = ctx.request.files[0];
     if (!file) return ctx.throw(404);
 
-    const filename = encodeURIComponent(ctx.request.body.name) + path.extname(file.filename).toLowerCase();
+    let filename = `${file.filename}`;
+    if (ctx.request.body.name) {
+      filename = `${encodeURIComponent(ctx.request.body.name)}${path.extname(filename)}`;
+    } else {
+      filename = `${Math.random(10).toString(16).split('.')[1]}_${filename}`;
+    }
     const targetPath = path.join(this.config.baseDir, 'app/public', filename);
     const source = fs.createReadStream(file.filepath);
     const target = fs.createWriteStream(targetPath);
@@ -33,7 +39,7 @@ module.exports = class extends Controller {
       status: true,
       message: 'success',
       data: {
-        url: `${header.origin}/public/${filename}`,
+        url: `http://${header.host}/public/${filename}`,
       },
     };
 
