@@ -12,7 +12,7 @@ module.exports = class extends Controller {
 
   async upload() {
     const { ctx } = this;
-    console.log(ctx.request);
+    const { header } = ctx.request;
     const file = ctx.request.files[0];
     if (!file) return ctx.throw(404);
 
@@ -33,7 +33,7 @@ module.exports = class extends Controller {
       status: true,
       message: 'success',
       data: {
-        url: '/public/' + filename,
+        url: `${header.origin}/public/${filename}`,
       },
     };
 
