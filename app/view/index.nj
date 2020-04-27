@@ -1,0 +1,7 @@
+{% extends "layout.nj" %}
+{% block content %}
+  <h2>Upload</h2>
+  <ul>
+    <li><a href="/ajax">Upload with Ajax</a></li>
+  </ul>
+{% endblock %}
